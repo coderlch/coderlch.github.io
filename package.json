@@ -1,0 +1,16 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "coder`s blog",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs"
+  },
+  "author": "coderlch",
+  "license": "ISC",
+  "devDependencies": {
+    "@vuepress/plugin-search": "^2.0.0-beta.46",
+    "vuepress": "^2.0.0-beta.46"
+  }
+}
