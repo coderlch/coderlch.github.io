@@ -89,6 +89,14 @@ module.exports = {
         ]
       },
 
+      // 工具
+      {
+        text: '工具',
+        children: [
+          {text: 'Linux', link: '/Linux/'}
+        ]
+      }
+
       // Home
       {
         text: 'Home',
@@ -107,8 +115,15 @@ module.exports = {
             'Docker实用篇.md',
             'nacos集群搭建.md',
             'Centos7安装Docker.md'
-            
-            
+          ]
+        }
+      ],
+      '/Linux/': [
+        {
+          text: 'Linux',
+          collapsible: true,
+          children: [
+            'Linux常用命令.md'
           ]
         }
       ]
