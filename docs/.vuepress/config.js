@@ -93,7 +93,7 @@ module.exports = {
       {
         text: '工具',
         children: [
-          {text: 'Linux', link: '/Linux/'}
+          {text: 'Linux', link: '/linux/'}
         ]
       },
 
@@ -118,7 +118,7 @@ module.exports = {
           ]
         }
       ],
-      '/Linux/': [
+      '/linux/': [
         {
           text: 'Linux',
           collapsible: true,
