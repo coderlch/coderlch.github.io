@@ -95,7 +95,7 @@ module.exports = {
         children: [
           {text: 'Linux', link: '/Linux/'}
         ]
-      }
+      },
 
       // Home
       {
