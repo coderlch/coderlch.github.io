@@ -104,6 +104,7 @@ module.exports = {
           children: [
             'springcloud-01.md',
             'SpringCloud-02.md',
+            'Docker实用篇.md',
             'nacos集群搭建.md',
             'Centos7安装Docker.md'
             
