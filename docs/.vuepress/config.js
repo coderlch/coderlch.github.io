@@ -103,8 +103,8 @@ module.exports = {
           collapsible: true,
           children: [
             'springcloud-01.md',
-            'springcloud-02.md',
-            'springcloud-03.md',
+            
+            
           ]
         }
       ]
@@ -117,6 +117,11 @@ module.exports = {
     searchPlugin({
       // 指定搜索结果的最大条数
       maxSuggestions: 15,
+      locales: {
+        '/': {
+          placeholder: 'Search',
+        }
+      }
       
     }),
   ],
