@@ -502,7 +502,7 @@ docker volume ls
 
 结果：
 
-![image-20210731173746910](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202206031815227.png)
+![image-20210731173746910](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202206031819545.png)
 
 3. 查看数据卷详细信息卷
 
@@ -512,7 +512,7 @@ docker volume inspect html
 
 结果：
 
-![image-20210731173809877](assets/image-20210731173809877.png)
+![image-20210731173809877](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202206031820494.png)
 
 可以看到，我们创建的html这个数据卷关联的宿主机目录为`/var/lib/docker/volumes/html/_data`目录。
 
