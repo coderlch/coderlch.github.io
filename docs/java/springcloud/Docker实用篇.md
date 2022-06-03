@@ -1,6 +1,6 @@
 ---
 lang: zh-CN
-title: Docker实用篇
+title: Docker
 description: Docker使用教程
 ---
 
@@ -185,9 +185,17 @@ DockerHub：
 
 企业部署一般都是采用Linux操作系统，而其中又数CentOS发行版占比最多，因此我们在CentOS下安装Docker。参考Docker安装教程
 
+
+
+
+
 ## 2.Docker的基本操作
 
+
+
 ### 2.1.镜像操作
+
+
 
 #### 2.1.1.镜像名称
 
@@ -202,11 +210,15 @@ DockerHub：
 
 这里的mysql就是repository，5.7就是tag，合一起就是镜像名称，代表5.7版本的MySQL镜像。
 
+
+
 #### 2.1.2.镜像命令
 
 常见的镜像操作命令如图：
 
 ![image-20210731155649535](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202206031740046.png)
+
+
 
 #### 2.1.3.案例1-拉取、查看镜像
 
@@ -224,17 +236,19 @@ DockerHub：
 
 ![image-20210731155903037](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202206031740074.png)
 
+
+
 #### 2.1.4.案例2-保存、导入镜像
 
 需求：利用docker save将nginx镜像导出磁盘，然后再通过load加载回来
 
-- 利用docker xx --help命令查看docker save和docker load的语法
+1. 利用docker xx --help命令查看docker save和docker load的语法
 
 例如，查看save命令用法，可以输入命令：
 
-  ```sh
-  docker save --help
-  ```
+```sh
+docker save --help
+```
 
 结果：
 
@@ -246,18 +260,19 @@ DockerHub：
 docker save -o [保存的目标文件名称] [镜像名称]
 ```
 
-- 使用docker save导出镜像到磁盘
+2. 使用docker save导出镜像到磁盘 
 
 运行命令：
 
-  ```sh
-  docker save -o nginx.tar nginx:latest
-  ```
+```sh
+docker save -o nginx.tar nginx:latest
+```
 
 结果如图：
+
 ![image-20210731161354344](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202206031739529.png)
 
-- 使用docker load加载镜像
+3. 使用docker load加载镜像
 
 先删除本地的nginx镜像：
 
@@ -274,6 +289,8 @@ docker load -i nginx.tar
 结果：
 
 ![image-20210731161746245](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202206031739778.png)
+
+
 
 #### 2.1.5.练习
 
@@ -292,6 +309,8 @@ docker load -i nginx.tar
 5）利用docker rmi 删除本地的redis:latest
 
 6）利用docker load 重新加载 redis.tar文件
+
+
 
 ### 2.2.容器操作
 
@@ -317,6 +336,8 @@ docker load -i nginx.tar
 
 - docker rm：删除一个容器
 
+
+
 #### 2.2.2.案例-创建并运行一个容器
 
 创建并运行nginx容器的命令：
@@ -341,6 +362,8 @@ docker run --name containerName -p 80:80 -d nginx
 
 ![image-20210731163255863](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202206031739024.png)
 
+
+
 #### 2.2.3.案例-进入容器，修改文件
 
 **需求**：进入Nginx容器，修改HTML文件内容，添加“传智教育欢迎您”
@@ -349,7 +372,7 @@ docker run --name containerName -p 80:80 -d nginx
 
 **步骤**：
 
-步骤一：进入容器。进入我们刚刚创建的nginx容器的命令为：
+1. 进入容器。进入我们刚刚创建的nginx容器的命令为：
 
 ```sh
 docker exec -it mn bash
@@ -365,35 +388,39 @@ docker exec -it mn bash
 
 - bash：进入容器后执行的命令，bash是一个linux终端交互命令
 
-- 进入nginx的HTML所在目录 /usr/share/nginx/html
+2. 进入nginx的HTML所在目录 /usr/share/nginx/html
 
-步骤二：容器内部会模拟一个独立的Linux文件系统，看起来如同一个linux服务器一样：
+容器内部会模拟一个独立的Linux文件系统，看起来如同一个linux服务器一样：
 
 ![image-20210731164159811](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202206031739711.png)
 
-  nginx的环境、配置、运行文件全部都在这个文件系统中，包括我们要修改的html文件。
+nginx的环境、配置、运行文件全部都在这个文件系统中，包括我们要修改的html文件。
 
-  查看DockerHub网站中的nginx页面，可以知道nginx的html目录位置在`/usr/share/nginx/html`
+查看DockerHub网站中的nginx页面，可以知道nginx的html目录位置在`/usr/share/nginx/html`
 
-  我们执行命令，进入该目录：
+我们执行命令，进入该目录：
 
-  ```sh
-  cd /usr/share/nginx/html
-  ```
+```sh
+cd /usr/share/nginx/html
+```
 
-   查看目录下文件：
-  ![image-20210731164455818](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202206031739075.png)
+ 查看目录下文件：
 
-步骤三：修改index.html的内容
+![image-20210731164455818](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202206031739075.png)
 
-  容器内没有vi命令，无法直接修改，我们用下面的命令来修改：
+3. 修改index.html的内容
 
-  ```sh
-  sed -i -e 's#Welcome to nginx#传智教育欢迎您#g' -e 's#<head>#<head><meta charset="utf-8">#g' index.html
-  ```
+容器内没有vi命令，无法直接修改，我们用下面的命令来修改：
 
-  在浏览器访问自己的虚拟机地址，例如我的是：<http://192.168.150.101>，即可看到结果：
-  ![image-20210731164717604](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202206031739524.png)
+```sh
+sed -i -e 's#Welcome to nginx#传智教育欢迎您#g' -e 's#<head>#<head><meta charset="utf-8">#g' index.html
+```
+
+在浏览器访问自己的虚拟机地址，例如我的是：http://192.168.150.101，即可看到结果：
+
+![image-20210731164717604](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202206031739524.png)
+
+
 
 #### 2.2.4.小结
 
@@ -413,6 +440,8 @@ docker run命令的常见参数有哪些？
 - docker ps
 - docker ps -a 查看所有容器，包括已经停止的
 
+
+
 ### 2.3.数据卷（容器数据管理）
 
 在之前的nginx案例中，修改nginx的html页面时，需要进入nginx内部。并且因为没有编辑器，修改文件也很麻烦。
@@ -423,6 +452,8 @@ docker run命令的常见参数有哪些？
 
 要解决这个问题，必须将数据与容器解耦，这就要用到数据卷了。
 
+
+
 #### 2.3.1.什么是数据卷
 
 **数据卷（volume）**是一个虚拟目录，指向宿主机文件系统中的某个目录。
@@ -432,6 +463,8 @@ docker run命令的常见参数有哪些？
 一旦完成数据卷挂载，对容器的一切操作都会作用在数据卷对应的宿主机目录了。
 
 这样，我们操作宿主机的/var/lib/docker/volumes/html目录，就等于操作容器内的/usr/share/nginx/html目录了
+
+
 
 #### 2.3.2.数据集操作命令
 
@@ -449,36 +482,41 @@ docker volume命令是数据卷操作，根据命令后跟随的command来确定
 - prune 删除未使用的volume
 - rm 删除一个或多个指定的volume
 
+
+
 #### 2.3.3.创建和查看数据卷
 
 **需求**：创建一个数据卷，并查看数据卷在宿主机的目录位置
 
 1. 创建数据卷
 
-    ```sh
-    docker volume create html
-    ```
+```sh
+docker volume create html
+```
 
 2. 查看所有数据
 
-    ```sh
-    docker volume ls
-    ```
-  
-    结果：
-    ![image-20210731173746910](assets/image-20210731173746910.png)
+```sh
+docker volume ls
+```
+
+结果：
+
+![image-20210731173746910](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202206031815227.png)
 
 3. 查看数据卷详细信息卷
 
-  ```sh
-  docker volume inspect html
-  ```
+```sh
+docker volume inspect html
+```
 
 结果：
 
 ![image-20210731173809877](assets/image-20210731173809877.png)
 
 可以看到，我们创建的html这个数据卷关联的宿主机目录为`/var/lib/docker/volumes/html/_data`目录。
+
+
 
 **小结**：
 
@@ -493,6 +531,8 @@ docker volume命令是数据卷操作，根据命令后跟随的command来确定
 - docker volume inspect：查看数据卷详细信息，包括关联的宿主机目录位置
 - docker volume rm：删除指定数据卷
 - docker volume prune：删除所有未使用的数据卷
+
+
 
 #### 2.3.4.挂载数据卷
 
@@ -510,6 +550,8 @@ docker run \
 
 - `-v html:/root/htm` ：把html数据卷挂载到容器内的/root/html这个目录中
 
+
+
 #### 2.3.5.案例-给nginx挂载数据卷
 
 **需求**：创建一个nginx容器，修改容器内的html目录内的index.html内容
@@ -522,20 +564,22 @@ docker run \
 
 1. 创建容器并挂载数据卷到容器内的HTML目录
 
-    ```sh
-    docker run --name mn -v html:/usr/share/nginx/html -p 80:80 -d nginx
-    ```
+```sh
+docker run --name mn -v html:/usr/share/nginx/html -p 80:80 -d nginx
+```
 
 2. 进入html数据卷所在位置，并修改HTML内容
 
-    ```sh
-    # 查看html数据卷的位置
-    docker volume inspect html
-    # 进入该目录
-    cd /var/lib/docker/volumes/html/_data
-    # 修改文件
-    vi index.html
-    ```
+```sh
+# 查看html数据卷的位置
+docker volume inspect html
+# 进入该目录
+cd /var/lib/docker/volumes/html/_data
+# 修改文件
+vi index.html
+```
+
+
 
 #### 2.3.6.案例-给MySQL挂载本地目录
 
@@ -555,6 +599,8 @@ docker run \
 - -v [宿主机目录]:[容器内目录]
 - -v [宿主机文件]:[容器内文件]
 
+
+
 **需求**：创建并运行一个MySQL容器，将宿主机目录直接挂载到容器
 
 实现思路如下：
@@ -573,6 +619,8 @@ docker run \
 
 ③ 设置MySQL密码
 
+
+
 #### 2.3.7.小结
 
 docker run的命令中通过 -v 参数挂载文件或目录到容器中：
@@ -585,6 +633,10 @@ docker run的命令中通过 -v 参数挂载文件或目录到容器中：
 
 - 数据卷挂载耦合度低，由docker来管理目录，但是目录较深，不好找
 - 目录挂载耦合度高，需要我们自己管理目录，不过目录容易寻找查看
+
+
+
+
 
 ## 3.Dockerfile自定义镜像
 
@@ -604,6 +656,8 @@ docker run的命令中通过 -v 参数挂载文件或目录到容器中：
 
 我们要构建镜像，其实就是实现上述打包的过程。
 
+
+
 ### 3.2.Dockerfile语法
 
 构建自定义的镜像时，并不需要一个个文件去拷贝，打包。
@@ -616,9 +670,13 @@ docker run的命令中通过 -v 参数挂载文件或目录到容器中：
 
 ![image-20210731180321133](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202206031738515.png)
 
-更新详细语法说明，请参考官网文档： <https://docs.docker.com/engine/reference/builder>
+更新详细语法说明，请参考官网文档： https://docs.docker.com/engine/reference/builder
+
+
 
 ### 3.3.构建Java项目
+
+
 
 #### 3.3.1.基于Ubuntu构建Java项目
 
@@ -667,6 +725,8 @@ docker run的命令中通过 -v 参数挂载文件或目录到容器中：
   ENTRYPOINT java -jar /tmp/app.jar
   ```
 
+  
+
 - 步骤5：进入docker-demo
 
   将准备好的docker-demo上传到虚拟机任意目录，然后进入docker-demo目录下
@@ -677,7 +737,10 @@ docker run的命令中通过 -v 参数挂载文件或目录到容器中：
   docker build -t javaweb:1.0 .
   ```
 
-最后访问 <http://192.168.150.101:8090/hello/count，其中的ip改成你的虚拟机ip>
+
+最后访问 http://192.168.150.101:8090/hello/count，其中的ip改成你的虚拟机ip
+
+
 
 #### 3.3.2.基于java8构建Java项目
 
@@ -716,6 +779,8 @@ docker run的命令中通过 -v 参数挂载文件或目录到容器中：
 
 - ⑤ 使用docker run创建容器并运行
 
+
+
 ### 3.4.小结
 
 小结：
@@ -725,6 +790,10 @@ docker run的命令中通过 -v 参数挂载文件或目录到容器中：
 2. Dockerfile的第一行必须是FROM，从一个基础镜像来构建
 
 3. 基础镜像可以是基本操作系统，如Ubuntu。也可以是其他人制作好的镜像，例如：java:8-alpine
+
+
+
+
 
 ## 4.Docker-Compose
 
@@ -758,13 +827,17 @@ version: "3.8"
 - mysql：一个基于`mysql:5.7.25`镜像构建的容器，并且挂载了两个目录
 - web：一个基于`docker build`临时构建的镜像容器，映射端口时8090
 
-DockerCompose的详细语法参考官网：<https://docs.docker.com/compose/compose-file/>
+DockerCompose的详细语法参考官网：https://docs.docker.com/compose/compose-file/
 
 其实DockerCompose文件可以看做是将多个docker run命令写到一个文件，只是语法稍有差异。
+
+
 
 ### 4.2.安装DockerCompose
 
 参考Docker安装教程
+
+
 
 ### 4.3.部署微服务集群
 
@@ -781,6 +854,8 @@ DockerCompose的详细语法参考官网：<https://docs.docker.com/compose/comp
 ④ 将打包好的app.jar拷贝到cloud-demo中的每一个对应的子目录中
 
 ⑤ 将cloud-demo上传至虚拟机，利用 docker-compose up -d 来部署
+
+
 
 #### 4.3.1.compose文件
 
@@ -831,6 +906,8 @@ services:
   - `volumes`：数据卷挂载，这里挂载了mysql的data、conf目录，其中有我提前准备好的数据
 - `userservice`、`orderservice`、`gateway`：都是基于Dockerfile临时构建的
 
+
+
 查看mysql目录，可以看到其中已经准备好了cloud_order、cloud_user表：
 
 ![image-20210801095205034](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202206031738865.png)
@@ -846,6 +923,8 @@ FROM java:8-alpine
 COPY ./app.jar /tmp/app.jar
 ENTRYPOINT java -jar /tmp/app.jar
 ```
+
+
 
 #### 4.3.2.修改微服务配置
 
@@ -866,6 +945,8 @@ spring:
     nacos:
       server-addr: nacos:8848 # nacos服务地址
 ```
+
+
 
 #### 4.3.3.打包
 
@@ -922,11 +1003,19 @@ gateway：
 docker-compose up -d
 ```
 
+
+
+
+
 ## 5.Docker镜像仓库
+
+
 
 ### 5.1.搭建私有镜像仓库
 
 参考CentOS7安装Docker
+
+
 
 ### 5.2.推送、拉取镜像
 
@@ -949,3 +1038,4 @@ docker push 192.168.150.101:8080/nginx:1.0
 ```sh
 docker pull 192.168.150.101:8080/nginx:1.0 
 ```
+
