@@ -33,7 +33,7 @@ module.exports = {
           { text: 'JavaSE', link: '' },
           { text: 'JavaWeb', link: '' },
           { text: 'MyBatis', link: '' },
-          { text: 'Spring', link: '' },
+          { text: 'Spring', link: '/java/spring/' },
           { text: 'Spring MVC', link: '' },
           { text: 'Spring Boot', link: '' },
           { text: 'Spring Cloud', link: '/java/springcloud/' },
@@ -105,6 +105,17 @@ module.exports = {
     ],
     // 侧边栏配置
     sidebar: {
+      '/java/spring/': [
+        {
+          text: 'Spring',
+          collapsible: true,
+          children: [
+            'spring高级.md'
+          ]
+        }
+       
+
+      ],
       '/java/springcloud/': [
         {
           text: 'Spring Cloud',
