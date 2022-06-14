@@ -93,7 +93,8 @@ module.exports = {
       {
         text: '工具',
         children: [
-          {text: 'Linux', link: '/linux/'}
+          { text: 'Linux', link: '/linux/' },
+          {text: 'Docker', link: '/docker/'}
         ]
       },
 
@@ -135,6 +136,15 @@ module.exports = {
           collapsible: true,
           children: [
             'Linux常用命令.md'
+          ]
+        }
+      ],
+      '/docker/': [
+        {
+          text: 'Docker',
+          collapsible: true,
+          children: [
+            'Docker实用篇.md'
           ]
         }
       ]
