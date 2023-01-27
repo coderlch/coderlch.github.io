@@ -31,7 +31,7 @@ module.exports = {
         text: 'Java后端',
         children: [
           { text: 'JavaSE', link: '' },
-          { text: 'JavaWeb', link: '' },
+          { text: 'JavaWeb', link: '/java/javaweb/' },
           { text: 'MyBatis', link: '' },
           { text: 'Spring', link: '/java/spring/' },
           { text: 'Spring MVC', link: '' },
@@ -106,6 +106,15 @@ module.exports = {
     ],
     // 侧边栏配置
     sidebar: {
+      '/java/javaweb/': [
+        {
+          text: 'JavaWeb',
+          collapsible: true,
+          children: [
+            'TomcatServlet.md'
+          ]
+        }
+      ],
       '/java/spring/': [
         {
           text: 'Spring',
