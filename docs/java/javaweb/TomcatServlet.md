@@ -99,7 +99,7 @@ discription: Tomcat&Servlet
 
 ### Servlet的体系结构
 
-<img src="https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202301261817150.png" alt="image-20230126181702936" style="zoom:67%;" />
+![image-20230128100006743](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202301281000959.png)
 
 通常我们自定义类需要继承HttpServlet，然后重写doGet方法和doPost方法
 
