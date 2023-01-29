@@ -1,5 +1,6 @@
 const { defaultTheme } = require('@vuepress/theme-default')
 const { searchPlugin } = require('@vuepress/plugin-search')
+// import { searchPlugin } from '@vuepress/plugin-search'
 
 
 module.exports = {
@@ -21,7 +22,7 @@ module.exports = {
     // 首页的路径
     home: '/',
     // 侧边栏标题深度
-    sidebarDepth: 3,
+    sidebarDepth: 6,
     // sidebar
     sidebar: 'SidebarConfigObject',
     // 导航栏
@@ -110,10 +111,10 @@ module.exports = {
     sidebar: {
       '/java/javaweb/': [
         {
-          text: 'JavaWeb',
+          text: 'Tomcat&Servlet',
           collapsible: true,
           children: [
-            'TomcatServlet.md'
+            'TomcatServlet'
           ]
         }
       ],

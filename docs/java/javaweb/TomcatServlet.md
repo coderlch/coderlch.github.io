@@ -2,6 +2,7 @@
 lang: zh-CN
 title: Tomcat&Servlet
 discription: Tomcat&Servlet
+sidebarDepth: 6
 ---
 
 ## Web相关概念
@@ -22,6 +23,8 @@ discription: Tomcat&Servlet
 2. 端口：应用程序在计算机中的唯一标识（0~65536）
 3. 传输协议：规定数据传输的规则（HTTP）
 
+
+
 ## Servlet
 
 ### 概念
@@ -29,6 +32,8 @@ discription: Tomcat&Servlet
 1. Servlet就是一个接口，定义了java类被浏览器访问到（tomcat识别）的规则
 2. 我们自己自定义一个类，实现Servlet接口，重写方法
 3. 运行在服务器端的小程序（server applet）
+
+
 
 ### 快速开始
 
@@ -51,12 +56,16 @@ discription: Tomcat&Servlet
         </servlet-mapping>
     ```
 
+
+
 ### Servlet执行原理
 
 1. 服务器接收到浏览器的请求后，会解析请求url路径，获取访问Servlet的资源路径
 2. 查找web.xml配置文件，是否有匹配 `<url-pattern>` 标签体内容
 3. 如果有，则查找对应的 `<servlet-class>` 全限定名
 4. tomcat会将该字节码文件加载进内存，然后创建对象，最后调用方法
+
+
 
 ### Servlet的生命周期
 
@@ -92,16 +101,22 @@ discription: Tomcat&Servlet
 
 ```
 
+
+
 ### 基于注解的Servlet开发
 
 1. Servlet 3.0版本以上支持注解开发
 2. 在Servlet的实现类上使用 @WebServlet 注解，配置 `@WebServlet("资源路径")` ，也可以配置多个路径，如：`@WebServlet({"url1", "url2", "url3"})`
+
+
 
 ### Servlet的体系结构
 
 ![image-20230128100006743](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202301281000959.png)
 
 通常我们自定义类需要继承HttpServlet，然后重写doGet方法和doPost方法
+
+
 
 ## HTTP
 
@@ -121,6 +136,8 @@ discription: Tomcat&Servlet
 1. HTTP1.0 : 每一次请求响应都会新建立一个连接
 2. HTTP1.1 : 复用连接
 
+
+
 ### HTTP的数据格式
 
 1. 请求消息数据格式
@@ -134,11 +151,15 @@ discription: Tomcat&Servlet
     - 响应空行
     - 响应体
 
+
+
 ### Request
 
 当服务器端（tomcat）接收到请求消息后，会创建一个request对象，然后把请求消息中的数据封装到这个request对象，最后把它传递给service方法，我们在重写service方法时可以使用request对象来获取请求消息的数据
 
-#### 获取请求行数据
+
+
+###### 获取请求行数据
 
 ps:GET  /servlet/demo?id=123&name=zhangsan  HTTP/1.1
 
@@ -151,12 +172,16 @@ ps:GET  /servlet/demo?id=123&name=zhangsan  HTTP/1.1
 - String getProtocol()                               ----  获取协议及版本：HTTP/1.1
 - String getRemoteAddr()                        ----  获取客户机的IP地址
 
-#### 获取请求头数据
+
+
+###### 获取请求头数据
 
 - String getHeader(String name)            ----通过请求头的名称获取请求请求头的值
 - Enumeration`<String>` getHeaderNames()        ----获取所有请求头的名称
 
-#### 获取请全体数据
+
+
+###### 获取请全体数据
 
 - 请全体：只有POST请求方式，才有请全体，在请全体中封装了POST请求的请求参数
 - 步骤：
@@ -165,7 +190,9 @@ ps:GET  /servlet/demo?id=123&name=zhangsan  HTTP/1.1
         - ServletInputStream getInputStream()          ----获取字节输入流，可以操作所有的数据类型
     2. 从流对象中拿数据
 
-#### 获取请求参数通用方式
+
+
+###### 获取请求参数通用方式
 
 - String getParameter(String name)          ----根据参数名称获取参数值
 - String[] getParameterValues(String name)          ----根据参数名称获取参数值的数组
@@ -173,7 +200,9 @@ ps:GET  /servlet/demo?id=123&name=zhangsan  HTTP/1.1
 - Map<String, String[]> getParameterMap()          ----获取所有参数的map集合
 - 注意：为解决中文乱码问题，应当在方法开始的位置添加 `request.setCharacterEncoding("UTF-8")` ,原因是tomcat不同版本其实现的默认编码格式不同
 
-#### 请求转发
+
+
+###### 请求转发
 
 - 它是一种服务器内部资源跳转的方式
 - 使用步骤：
@@ -184,7 +213,9 @@ ps:GET  /servlet/demo?id=123&name=zhangsan  HTTP/1.1
     2. 只能转发到当前服务器内部资源中
     3. 转发是一次请求
 
-#### 共享数据
+
+
+###### 共享数据
 
 - 域对象：一个作用范围的对象，可以在范围内共享数据
 - request域：代表一次请求的范围，一般用于请求转发多个资源中的共享数据
@@ -193,7 +224,9 @@ ps:GET  /servlet/demo?id=123&name=zhangsan  HTTP/1.1
     2. Object getAttribute(String name)          ----通过键获取值
     3. void removeAttribute(String name)          ----通过键移除键值对
 
-#### ServletContext对象
+
+
+###### ServletContext对象
 
 概述：
 
@@ -216,9 +249,11 @@ ServletContext应用：
     2. 获取数据：servletContext.getAttribute(String name)
     3. 移除数据：servletContext.removeAttribute(String name)
 
+
+
 ### Response
 
-#### 常用方法
+###### 常用方法
 
 | 方法名称                                  | 作用                               |
 | :---------------------------------------- | ---------------------------------- |
@@ -227,7 +262,9 @@ ServletContext应用：
 | void setCharacterEncoding(String charset) | 设置服务端响应内容编码格式         |
 | PrintWriter getWriter()                   | 获取字符输出流                     |
 
-#### 重定向
+
+
+###### 重定向
 
 | 方法名称                           | 作用   |
 | ---------------------------------- | ------ |
@@ -239,3 +276,70 @@ ServletContext应用：
 - 重定向是浏览器做了至少2次请求访问
 - 重定向2次跳转之间传输的信息会丢失（request范围）
 - 重定向可以指向任何资源
+
+
+
+## 过滤器
+
+### 产生的原因
+
+> 每个Servlet中存在冗余的代码
+
+### 概念
+
+> 过滤器（Filter）是处于客户端与服务器目标资源之间的一道过滤技术
+
+![image-20230129095047747](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202301290950849.png)
+
+### 过滤器的作用
+
+> 1. 执行地位在Servlet之前，客户端发送请求时，会先经过Filter，再到达目标Servlet中，响应时，会根据执行流程再次反向执行Filter
+> 2. 可以解决多个Servlet共性代码的冗余问题（如：乱码处理，验证登录）
+
+### 编写过滤器
+
+> Servlet API 提供了Filter接口，开发者只需编写一个java类实现这个接口即可，编写的java类称为Filter
+>
+> 实现步骤：
+>
+> 1. 编写java类实现Filter接口
+> 2. 在doFilter()方法上编写拦截逻辑
+> 3. 设置拦截路径（xml配置  /  @WebFilter(value = "/拦截的目标资源")）
+
+### 过滤器配置
+
+###### 注解配置
+
+> 在自定义的Filter类上使用注解 @WebFilter(value = "/拦截的目标资源")
+
+###### xml配置
+
+```xml
+<filter>
+    <filter-name>xxx</filter-name>
+    <filter-class>xxx</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>xxx</filter-name>
+    <url-pattern>/xxx</url-pattern>
+</filter-mapping>
+```
+
+### 过滤器链与优先级
+
+###### 过滤器链
+
+> - 客户端对服务器请求后，服务器调用Servlet之前会执行一组Filter，这一组Filter称为过滤器链
+> - 每个过滤器实现特定的功能，当第一个Filter的doFilter()被调用时，web服务器会创建一个代表Filter链的FilterChain对象传递给该方法（类似request和response）。在doFilter()中如果调用了FilterChain对象的doFilter(),则web服务器会检查FilterChain对象中是否还有Filter，如果有，则调用第二个，如果没有，则调用目标资源
+
+![image-20230129104654010](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202301291046094.png)
+
+###### 过滤器的优先级
+
+> 在一个web应用程序中，	可以开发编写多个Filter，这些Filter组合起来称之为Filter链
+>
+> 优先级：
+>
+> - 注解配置时，按照类的全限定名的字符串顺序来决定作用顺序
+> - web.xml配置时，按照 `<filter-mapping>`  注册顺序，从上往下
+> - web.xml配置高于注解配置
