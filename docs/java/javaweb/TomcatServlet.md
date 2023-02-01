@@ -279,6 +279,184 @@ ServletContext应用：
 
 
 
+### 状态管理
+
+
+
+###### 现有问题
+
+> - HTTP协议是无状态的，不能保存每次提交的信息
+> - 当客户端发来一个请求，服务器端无法知道它与上一次的请求是否有联系
+> - 对于那些需要多次提交数据的web操作，就存在问题（如登录问题）
+
+
+
+###### 概念
+
+> 将浏览器与web服务器之间多次交互当作一个整体来处理，并且将多次交互所涉及到的数据（即状态）保存下来
+
+
+
+###### 状态的分类
+
+> - 客户端管理技术：将状态保存在客户端，代表性的是Cookie技术
+> - 服务器端管理技术：将状态保存在服务端，代表性的是Session技术和application
+
+
+
+###### Cookie技术
+
+> - Cookie是在浏览器访问web服务器某个资源时，由web服务器在HTTP响应消息头中附带传送给浏览器的一小段数据
+> - 一旦web浏览器保存了某个Cookie，那么以后再访问该资源时，都应在请求头中将这个Cookie回传给web服务器
+> - 一个Cookie主要由名称（name）和值（value）组成
+
+![image-20230129162612406](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202301291626711.png)
+
+
+
+###### 创建Cookie
+
+```java
+Cookie cookie = new Cookie(name, value);          # 创建Cookie
+    
+cookie.setPath("资源目录")          # 设置Cookie的可访问资源路径
+    
+cookie.setMaxAge(number)          # >0为有效期，单位是秒; =0表示浏览器关闭就失效; <0表示内存存储，默认值是-1
+    
+response.addCookie(cookie);          # 添加到response对象中，响应时发送给客户端
+
+```
+
+
+
+###### 获取Cookie
+
+```java
+Cookie[] cookies = request.getCookies();
+
+if(cookies != null) {
+    for(Cookie cookie : cookies) {
+        if(cookie.getName().equals("cookie名称")){
+            code = cookie.getValue();
+            break;
+    }
+}
+```
+
+
+
+###### 修改Cookie
+
+> 只需要保证Cookie的名和路径一致，即可覆盖原来的Cookie，否则会新建一个Cookie
+
+```java
+Cookie cookie = new Cookie(name, value);
+    
+cookie.setPath("资源目录");
+    
+cookie.setMaxAge(number);
+    
+response.addCookie(cookie);
+
+```
+
+
+
+###### Cookie编码与解码
+
+> Cookie默认不支持中文，只能包含ASCII字符，故需要对中文进行编码和解码
+
+| 包                  | 方法                                              | 作用 |
+| ------------------- | ------------------------------------------------- | ---- |
+| java.nt.URLEncoder  | public static String encode(String s, String enc) | 编码 |
+| java.net.URLDecoder | public static String decode(String s, String enc) | 解码 |
+
+
+
+###### Cookie的优点与缺点
+
+| 优点                                                       | 缺点                                             |
+| ---------------------------------------------------------- | ------------------------------------------------ |
+| 可配置到期规则                                             | 数据存储大小受到限制，大多数浏览器有4k，8k的限制 |
+| 简单性：Cookie是一种基于文本的轻量结构，包含简单的键值对   | 客户端浏览器配置为Cookie禁用                     |
+| 数据持久性：Cookie默认在过期之前可以一直存在客户端浏览器上 | 潜在的安全风险：Cookie可能被篡改                 |
+
+
+
+###### Session技术
+
+> - Session用于记录用户的状态
+>
+> - Session指的是在一段时间内，单个客户端与服务器的一连串相关的交互过程
+>
+> - 在一个Session中，客户端可能会多次请求访问同一个资源或者各种不同的服务器资源
+
+
+
+###### Session原理
+
+> - 服务器会为每一次会话分配一个Session对象
+> - 同一个浏览器发起的多次请求，同属于一次会话(Session)
+> - 首次使用Session时，服务器会自动创建Session，并创建Cookie存储SessionID发送回客户端
+
+
+
+###### Session作用域
+
+> - 拥有存储数据的空间，作用范围是一次会话
+>
+> - 一次会话是使用同一浏览器发送的多次请求，一旦浏览器关闭，会话结束
+>
+> - 可以将数据存入Session中，在一次会话中的任意位置进行获取
+>
+> - 可以传递任意数据类型（基本数据类型，对象，数组，集合）
+
+
+
+###### 获取Session
+
+```java
+HttpSession session = request.getSession();
+```
+
+
+
+###### Session保存数据
+
+```java
+session.setAttribute("key", value);	    # 以键值对形式存储在Session作用域中
+```
+
+
+
+###### Session获取数据
+
+```java
+session.getAttribute("key");     # 通过String类型的key来访问Object类型的value
+```
+
+
+
+###### Session移除数据
+
+```java
+session.removeAttribute("key");     # 通过键移除session作用域中的值value
+```
+
+
+
+###### Session的生命周期
+
+> - 开始：第一次使用到Session的请求产生，则创建Session
+> - 结束：
+>     - 浏览器关闭，则失效
+>     - Session超时，则失效（  session.setMaxInactiveInterval(seconds) ，设置最大有效时间 ）
+>     - 手工销毁，则失效（  session.invalidate()，如登录退出，注销  ）
+
+
+
+
+
 ## 过滤器
 
 ### 产生的原因
@@ -343,3 +521,6 @@ ServletContext应用：
 > - 注解配置时，按照类的全限定名的字符串顺序来决定作用顺序
 > - web.xml配置时，按照 `<filter-mapping>`  注册顺序，从上往下
 > - web.xml配置高于注解配置
+
+
+
