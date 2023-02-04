@@ -104,20 +104,24 @@ public class Demo01 {
 
 ### 成员变量
 
-1.序列化版本号
+###### 序列化版本号
 
 ~~~java
 private static final long serialVersionUID = 362498820763181265L;
 ~~~
 
-2.集合的初始化容量( **必须是二的n次幂** )
+
+
+###### 集合的初始化容量( **必须是二的n次幂** )
 
 ~~~java
 //默认的初始容量是16 -- 1<<4相当于1*2的4次方---1*16
 static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;   
 ~~~
 
-问题： **为什么必须是2的n次幂？如果输入值不是2的幂比如10会怎么样？** 
+
+
+> 为什么必须是2的n次幂？如果输入值不是2的幂比如10会怎么样？
 
 HashMap构造方法还可以指定集合的初始化容量大小：
 
@@ -129,7 +133,9 @@ HashMap(int initialCapacity) 构造一个带指定初始容量和默认加载因
 
 这个算法实际就是取模，hash%length，计算机中直接求余效率不如位移运算(这点上述已经讲解)。所以源码中做了优化,使用 hash&(length-1)，而实际上hash%length等于hash&(length-1)的前提是length是2的n次幂。
 
-为什么这样能均匀分布减少碰撞呢？2的n次方实际就是1后面n个0，2的n次方-1  实际就是n个1；
+
+
+> 为什么这样能均匀分布减少碰撞呢？2的n次方实际就是1后面n个0，2的n次方-1  实际就是n个1
 
 举例：
 
@@ -189,9 +195,7 @@ hash&(length-1)
 
 **注意： 当然如果不考虑效率直接求余即可（就不需要要求长度必须是2的n次方了）** 
 
-
-
-小结：
+###### 小结
 
 ​	1.由上面可以看出，当我们根据key的hash确定其在数组的位置时，如果n为2的幂次方，可以保证数据的均匀插入，如果n不是2的幂次方，可能数组的一些位置永远不会插入数据，浪费数组的空间，加大hash冲突。
 
@@ -199,7 +203,9 @@ hash&(length-1)
 
 ​	3.因此，HashMap 容量为2次幂的原因，就是为了数据的的均匀分布，减少hash冲突，毕竟hash冲突越大，代表数组中一个链的长度越大，这样的话会降低hashmap的性能
 
-​	**4.如果创建HashMap对象时，输入的数组长度是10，不是2的幂，HashMap通过一通位移运算和或运算得到的肯定是2的幂次数，并且是离那个数最近的数字。**
+
+
+> ​	如果创建HashMap对象时，输入的数组长度是10，不是2的幂，HashMap通过一通位移运算和或运算得到的肯定是2的幂次数，并且是离那个数最近的数字。
 
 源代码如下：
 
@@ -298,7 +304,7 @@ n |= n >>> 4;//n通过第一、二次右移变为了：n=15
 注意，容量最大也就是32bit的正数，因此最后n |= n >>> 16; ，最多也就32个1（但是这已经是负数了。在执行tableSizeFor之前，对initialCapacity做了判断，如果大于MAXIMUM_CAPACITY(2 ^ 30)，则取MAXIMUM_CAPACITY。如果等于MAXIMUM_CAPACITY(2 ^ 30)，会执行移位操作。所以这里面的移位操作之后，最大30个1，不会大于等于MAXIMUM_CAPACITY。30个1，加1之后得2 ^ 30） 。
 请看下面的一个完整例子：
 
-![image-20191115151657917](img/image-20191115151657917.png)
+![image-20230204204740480](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202302042047620.png)
 
   注意，得到的这个capacity却被赋值给了threshold。 
 
@@ -306,29 +312,37 @@ n |= n >>> 4;//n通过第一、二次右移变为了：n=15
 this.threshold = tableSizeFor(initialCapacity);//initialCapacity=10
 ~~~
 
-3.默认的负载因子，默认值是0.75 
+
+
+> 3.默认的负载因子，默认值是0.75 
 
 ~~~java
 static final float DEFAULT_LOAD_FACTOR = 0.75f;
 ~~~
 
-4.集合最大容量 
+
+
+> 4.集合最大容量 
 
 ~~~java
 //集合最大容量的上限是：2的30次幂
 static final int MAXIMUM_CAPACITY = 1 << 30;
 ~~~
 
-5.当链表的值超过8则会转红黑树(**1.8新增**) 
+
+
+> 5.当链表的值超过8则会转红黑树(**1.8新增**) 
 
 ~~~java
  //当桶(bucket)上的结点数大于这个值时会转成红黑树
  static final int TREEIFY_THRESHOLD = 8;
 ~~~
 
-**问题：为什么Map桶中节点个数超过8才转为红黑树？**
 
-8这个阈值定义在HashMap中，针对这个成员变量，在源码的注释中只说明了8是bin（bin就是bucket(桶)）从链表转成树的阈值，但是并没有说明为什么是8： 
+
+> 问题：为什么Map桶中节点个数超过8才转为红黑树？
+
+把这个阈值定义在HashMap中，针对这个成员变量，在源码的注释中只说明了8是bin（bin就是bucket(桶)）从链表转成树的阈值，但是并没有说明为什么是8： 
 
  在HashMap中有一段注释说明： 我们继续往下看 :
 
@@ -369,7 +383,7 @@ TreeNodes占用空间是普通Nodes的两倍，所以只有当bin包含足够多
 泊松分布的概率函数为：
 ~~~
 
-![image-20191115161055901](img/image-20191115161055901.png)
+![image-20230204204924130](https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202302042049187.png)
 
 ~~~
  泊松分布的参数λ是单位时间(或单位面积)内随机事件的平均发生次数。 泊松分布适合于描述单位时间内随机事件发生的次数。
@@ -381,21 +395,27 @@ TreeNodes占用空间是普通Nodes的两倍，所以只有当bin包含足够多
 红黑树的平均查找长度是log(n)，如果长度为8，平均查找长度为log(8)=3，链表的平均查找长度为n/2，当长度为8时，平均查找长度为8/2=4，这才有转换成树的必要；链表长度如果是小于等于6，6/2=3，而log(6)=2.6，虽然速度也很快的，但是转化为树结构和生成树的时间并不会太短。
 ~~~
 
-**6.当链表的值小于6则会从红黑树转回链表** 
+
+
+> 6.当链表的值小于6则会从红黑树转回链表
 
 ~~~java
  //当桶(bucket)上的结点数小于这个值时树转链表
  static final int UNTREEIFY_THRESHOLD = 6;
 ~~~
 
-7.当Map里面的数量超过这个值时，表中的桶才能进行树形化 ，否则桶内元素太多时会扩容，而不是树形化 为了避免进行扩容、树形化选择的冲突，这个值不能小于 4 * TREEIFY_THRESHOLD (8)
+
+
+> 7.当Map里面的数量超过这个值时，表中的桶才能进行树形化 ，否则桶内元素太多时会扩容，而不是树形化 为了避免进行扩容、树形化选择的冲突，这个值不能小于 4 * TREEIFY_THRESHOLD (8)
 
 ~~~java
 //桶中结构转化为红黑树对应的数组长度最小的值 
 static final int MIN_TREEIFY_CAPACITY = 64;
 ~~~
 
-**8、table用来初始化(必须是二的n次幂)(重点)** 
+
+
+> 8、table用来初始化(必须是二的n次幂)(重点)
 
 ~~~java
 //存储元素的数组 
@@ -404,14 +424,18 @@ transient Node<K,V>[] table;
 
 **table**在JDK1.8中我们了解到HashMap是由数组加链表加红黑树来组成的结构其中table就是HashMap中的数组，jdk8之前数组类型是Entry<K,V>类型。从jdk1.8之后是Node<K,V>类型。只是换了个名字，都实现了一样的接口：Map.Entry<K,V>。负责存储键值对数据的。
 
-9、用来存放缓存 
+
+
+> 9、用来存放缓存 
 
 ~~~java
 //存放具体元素的集合
 transient Set<Map.Entry<K,V>> entrySet;
 ~~~
 
-**10、 HashMap中存放元素的个数(重点)**
+
+
+> 10、 HashMap中存放元素的个数(重点)
 
 ~~~java
 //存放元素的个数，注意这个不等于数组的长度。
@@ -420,21 +444,27 @@ transient Set<Map.Entry<K,V>> entrySet;
 
 **size**为HashMap中K-V的实时数量，不是数组table的长度。
 
-11、 用来记录HashMap的修改次数 
+
+
+> 11、 用来记录HashMap的修改次数 
 
 ~~~java
 // 每次扩容和更改map结构的计数器
  transient int modCount;  
 ~~~
 
-12、 用来调整大小下一个容量的值计算方式为(容量*负载因子) 
+
+
+> 12、 用来调整大小下一个容量的值计算方式为(容量*负载因子) 
 
 ~~~java
 // 临界值 当实际大小(容量*负载因子)超过临界值时，会进行扩容
 int threshold;
 ~~~
 
-**13、 哈希表的加载因子(重点)** 
+
+
+> 13、 哈希表的加载因子(重点)
 
 ~~~java
 // 加载因子
@@ -462,28 +492,24 @@ HashMap(int initialCapacity, float loadFactor) 构造一个带指定初始容量
 
 loadFactor越趋近于1，那么 数组中存放的数据(entry)也就越多，也就越密，也就是会让链表的长度增加，loadFactor越小，也就是趋近于0，数组中存放的数据(entry)也就越少，也就越稀疏。
 
-![image-20191115173553375](img/image-20191115173553375.png)
+<img src="https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202302042055446.png" alt="image-20230204205516340" style="zoom:50%;" />
 
 如果希望链表尽可能少些。要提前扩容，有的数组空间有可能一直没有存储数据。加载因子尽可能小一些。
 
 举例：
 
-~~~
-例如：加载因子是0.4。 那么16*0.4--->6 如果数组中满6个空间就扩容会造成数组利用率太低了。
-	 加载因子是0.9。 那么16*0.9---->14 那么这样就会导致链表有点多了。导致查找元素效率低。
-~~~
+​        加载因子是0.4。 那么16*0.4--->6 如果数组中满6个空间就扩容会造成数组利用率太低了。
+加载因子是0.9。 那么16*0.9---->14 那么这样就会导致链表有点多了。导致查找元素效率低。
 
 所以既兼顾数组利用率又考虑链表不要太多，经过大量测试0.75是最佳方案。
 
-
-
 - **threshold**计算公式：capacity(数组长度默认16) * loadFactor(负载因子默认0.75)。这个值是当前已占用数组长度的最大值。**当Size>=threshold**的时候，那么就要考虑对数组的resize(扩容)，也就是说，这个的意思就是 **衡量数组是否需要扩增的一个标准**。 扩容后的 HashMap 容量是之前容量的两倍.
+
+
 
 ### 构造方法
 
- HashMap 中重要的构造方法，它们分别如下： 
-
-1、构造一个空的 `HashMap` ，默认初始容量（16）和默认负载因子（0.75）。 
+> 1、构造一个空的 `HashMap` ，默认初始容量（16）和默认负载因子（0.75）。 
 
 ~~~java
 public HashMap() {
@@ -491,7 +517,9 @@ public HashMap() {
 }
 ~~~
 
-2、 构造一个具有指定的初始容量和默认负载因子（0.75） `HashMap`。 
+
+
+> 2、 构造一个具有指定的初始容量和默认负载因子（0.75） `HashMap`。 
 
 ~~~java
  // 指定“容量大小”的构造函数
@@ -500,7 +528,9 @@ public HashMap() {
   }
 ~~~
 
-3、 构造一个具有指定的初始容量和负载因子的 `HashMap`。我们来分析一下。 
+
+
+> 3、 构造一个具有指定的初始容量和负载因子的 `HashMap`。
 
 ~~~java
 /*
@@ -562,7 +592,9 @@ this.threshold = tableSizeFor(initialCapacity) * this.loadFactor;
 但是，请注意，在jdk8以后的构造方法中，并没有对table这个成员变量进行初始化，table的初始化被推			 迟到了put方法中，在put方法中会对threshold重新计算，put方法的具体实现我们下面会进行讲解
 ~~~
 
-4、包含另一个“Map”的构造函数 
+
+
+> 4、包含另一个“Map”的构造函数 
 
 ~~~java
 //构造一个映射关系与指定 Map 相同的新 HashMap。
@@ -612,6 +644,8 @@ final void putMapEntries(Map<? extends K, ? extends V> m, boolean evict) {
  s/loadFactor的结果是小数，加1.0F与(int)ft相当于是对小数做一个向上取整以尽可能的保证更大容量，更大的容量能够减少resize的调用次数。所以 + 1.0F是为了获取更大的容量。 
 
 例如：原来集合的元素个数是6个，那么6/0.75是8，是2的n次幂，那么新的数组大小就是8了。然后原来数组的数据就会存储到长度是8的新的数组中了，这样会导致在存储元素的时候，容量不够，还得继续扩容，那么性能降低了，而如果+1呢，数组长度直接变为16了，这样可以减少数组的扩容。
+
+
 
 ### 成员方法
 
@@ -715,7 +749,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 
 
 
-![image-20191114193730911](img/image-20191114193730911.png)
+<img src="https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202302042059357.png" alt="image-20230204205907228" style="zoom:50%;" />
 
 简单来说就是：
 
@@ -895,6 +929,8 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 } 
 ~~~
 
+
+
 ###### 将链表转换为红黑树的treeifyBin方法
 
 节点添加完成之后判断此时节点个数是否大于TREEIFY_THRESHOLD临界值8，如果大于则将链表转换为红黑树，转换红黑树的方法  treeifyBin，整体代码如下：
@@ -1000,17 +1036,17 @@ HashMap在进行扩容时，使用的rehash方式非常巧妙，因为每次扩�
 
  怎么理解呢？例如我们从16扩展为32时，具体的变化如下所示： 
 
-![image-20191117110812839](img/image-20191117110812839.png)
+<img src="https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202302042100203.png" alt="image-20230204210012095" style="zoom:50%;" />
 
  因此元素在重新计算hash之后，因为n变为2倍，那么n-1的标记范围在高位多1bit(红色)，因此新的index就会发生这样的变化： 
 
-![image-20191117110934974](img/image-20191117110934974.png)
+<img src="https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202302042100918.png" alt="image-20230204210037853" style="zoom:50%;" />
 
 说明：5是假设计算出来的原来的索引。这样就验证了上述所描述的：扩容之后所以节点要么就在原来的位置，要么就被分配到"**原位置+旧容量**"这个位置。
 
  因此，我们在扩充HashMap的时候，不需要重新计算hash，只需要看看原来的hash值新增的那个bit是1还是0就可以了，是0的话索引没变，是1的话索引变成“原索引+oldCap(**原位置+旧容量**)”。可以看看下图为16扩充为32的resize示意图： 
 
-![image-20191117111211630](img/image-20191117111211630.png)
+<img src="https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202302042101653.png" alt="image-20230204210103559" style="zoom:50%;" />
 
 正是因为这样巧妙的rehash方式，既省去了重新计算hash值的时间，而且同时，由于新增的1bit是0还是1可以认为是随机的，在resize的过程中保证了rehash之后每个桶上的节点数一定小于等于原来桶上的节点数，保证了rehash之后不会出现更严重的hash冲突，均匀的把之前的冲突的节点分散到新的桶中了。
 
@@ -1125,8 +1161,6 @@ final Node<K,V>[] resize() {
     return newTab;
 }
 ~~~
-
-
 
 
 
@@ -1309,19 +1343,21 @@ final Node<K,V> getNode(int hash, Object key) {
 
 ​	若为链表，则在链表中通过key.equals(k)查找，O(n)。
 
+
+
 ###### 遍历HashMap集合几种方式
 
  1、分别遍历Key和Values 
 
-![image-20191117160455507](img/image-20191117160455507.png)
+<img src="https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202302042102696.png" alt="image-20230204210204621" style="zoom: 80%;" />
 
 2、使用Iterator迭代器迭代 
 
-![image-20191117160627369](img/image-20191117160627369.png)
+<img src="https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202302042102526.png" alt="image-20230204210229436" style="zoom:80%;" />
 
 3、通过get方式（不建议使用）
 
-![image-20191117160733756](img/image-20191117160733756.png)
+<img src="https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202302042102408.png" alt="image-20230204210254343" style="zoom:80%;" />
 
 说明：根据阿里开发手册，不建议使用这种方式，因为迭代两次。keySet获取Iterator一次，还有通过get又迭代一次。降低性能。
 
@@ -1363,7 +1399,7 @@ public class Demo02 {
 
  《阿里巴巴Java开发手册》中建议我们设置HashMap的初始化容量。 
 
-![image-20191117164748836](img/2.bmp)
+<img src="https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202302042103315.png" alt="image-20230204210331241" style="zoom:80%;" />
 
  那么，为什么要这么建议？你有想过没有。 
 
@@ -1373,13 +1409,15 @@ public class Demo02 {
 
 但是设置初始化容量，设置的数值不同也会影响性能，那么当我们已知HashMap中即将存放的KV个数的时候，容量设置成多少为好呢？
 
+
+
 ### HashMap中容量的初始化
 
 当我们使用HashMap(int initialCapacity)来初始化容量的时候，jdk会默认帮我们计算一个相对合理的值当做初始容量。那么，是不是我们只需要把已知的HashMap中即将存放的元素个数直接传给initialCapacity就可以了呢？
 
 关于这个值的设置，在《阿里巴巴Java开发手册》有以下建议：
 
-![image-20191117165438726](img/image-20191117165438726.png)
+<img src="https://lch-figurebed.oss-cn-shenzhen.aliyuncs.com/202302042104759.png" alt="image-20230204210403678" style="zoom:80%;" />
 
 也就是说，如果我们设置的默认值是7，经过Jdk处理之后，会被设置成8，但是，这个HashMap在元素个数达到 8*0.75 = 6的时候就会进行一次扩容，这明显是我们不希望见到的。我们应该尽量减少扩容。原因也已经分析过。
 
