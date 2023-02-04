@@ -31,7 +31,8 @@ module.exports = {
       {
         text: 'Java后端',
         children: [
-          { text: 'JavaSE', link: '' },
+          { text: 'JavaSE', link: '/java/javaSE/' },
+          {text: 'JavaAPI', link: '/java/javaAPI/'},
           { text: 'JavaWeb', link: '/java/javaweb/' },
           { text: 'MyBatis', link: '' },
           { text: 'Spring', link: '/java/spring/' },
@@ -109,6 +110,26 @@ module.exports = {
     
     // 侧边栏配置
     sidebar: {
+      '/java/javaSE/': [
+        {
+          text: 'JavaSE',
+          collapsible: true,
+          children: [
+            'HashMap',
+            '类加载器',
+            'JVM'
+          ]
+        }
+      ],
+      '/java/javaAPI/': [
+        {
+          text: 'JavaAPI',
+          collapsible: true,
+          children: [
+            '字符串'
+          ]
+        }
+      ],
       '/java/javaweb/': [
         {
           text: 'Tomcat&Servlet',

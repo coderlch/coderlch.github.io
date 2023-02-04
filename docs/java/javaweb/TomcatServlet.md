@@ -368,7 +368,7 @@ response.addCookie(cookie);
 
 | 包                  | 方法                                              | 作用 |
 | ------------------- | ------------------------------------------------- | ---- |
-| java.nt.URLEncoder  | public static String encode(String s, String enc) | 编码 |
+| java.net.URLEncoder | public static String encode(String s, String enc) | 编码 |
 | java.net.URLDecoder | public static String decode(String s, String enc) | 解码 |
 
 
