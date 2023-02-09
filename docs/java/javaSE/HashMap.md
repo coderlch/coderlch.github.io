@@ -1,6 +1,8 @@
+---
 lang: zh-CN
 title: HashMap
 description: HashMap
+---
 
 
 
