@@ -1,32 +1,36 @@
 ---
 lang: zh-CN
-title: I/O流
-description；I/O流
+title: 基础IO流
+description: 基础IO流
 ---
 
 
 
 ## 字节流
 
-
+> 
+>
 
 
 
 ## 字符流
 
-
+> 
+>
 
 
 
 ## 字节缓冲流
 
-
+> 
+>
 
 
 
 ## 字符缓冲流
 
-
+> 
+>
 
 
 
