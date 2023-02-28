@@ -32,14 +32,13 @@ module.exports = {
         text: 'Java后端',
         children: [
           { text: 'JavaSE', link: '/java/javaSE/' },
-          {text: 'JavaAPI', link: '/java/javaAPI/'},
           { text: 'JavaWeb', link: '/java/javaweb/' },
-          { text: 'MyBatis', link: '' },
           { text: 'Spring', link: '/java/spring/' },
           { text: 'Spring MVC', link: '' },
           { text: 'Spring Boot', link: '' },
+          { text: 'MyBatis', link: '' },
           { text: 'Spring Cloud', link: '/java/springcloud/' },
-          
+          {text: 'JVM', link: '/java/JVM/'}
         ]
       },
 
@@ -112,20 +111,43 @@ module.exports = {
     sidebar: {
       '/java/javaSE/': [
         {
-          text: 'JavaSE',
+          text: '集合',
           collapsible: true,
           children: [
             'HashMap',
-            '类加载器',
-            'JVM',
-            'IO流',
-            'Java并发基础',
-            '反射',
-            '基础IO流'
           ]
-        }
-      ],
-      '/java/javaAPI/': [
+        },
+        {
+          text: 'IO流',
+          collapsible: true,
+          children: [
+            'IO流'
+          ]
+        },
+
+        {
+          text: '网络编程',
+          collapsible: true,
+          children: [
+            '网络编程'
+          ]
+        },
+
+        {
+          text: 'Java并发基础',
+          collapsible: true,
+          children: [
+            'Java并发基础'
+          ]
+        },
+        {
+          text: '反射',
+          collapsible: true,
+          children: [
+            '反射'
+          ]
+        },
+
         {
           text: 'JavaAPI',
           collapsible: true,
@@ -134,6 +156,8 @@ module.exports = {
           ]
         }
       ],
+
+
       '/java/javaweb/': [
         {
           text: 'Tomcat&Servlet',
@@ -143,6 +167,8 @@ module.exports = {
           ]
         }
       ],
+
+
       '/java/spring/': [
         {
           text: 'Spring',
@@ -154,6 +180,8 @@ module.exports = {
        
 
       ],
+
+
       '/java/springcloud/': [
         {
           text: 'Spring Cloud',
@@ -167,6 +195,26 @@ module.exports = {
           ]
         }
       ],
+
+
+      '/java/JVM/': [
+        {
+          text: '类加载器',
+          collapsible: true,
+          children: [
+            '类加载器'
+          ]
+        },
+        {
+          text: 'JVM',
+          collapsible: true,
+          children: [
+            'JVM'
+          ]
+        }
+      ],
+
+
       '/linux/': [
         {
           text: 'Linux',
@@ -176,6 +224,8 @@ module.exports = {
           ]
         }
       ],
+
+
       '/docker/': [
         {
           text: 'Docker',

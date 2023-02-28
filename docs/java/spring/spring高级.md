@@ -1,7 +1,7 @@
 ---
 lang: zh-CN
-title: Spring高级
-description: Spring体系知识
+title: Spring
+description: Spring
 ---
 
 ## 容器与 bean
