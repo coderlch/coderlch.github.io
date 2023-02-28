@@ -124,7 +124,6 @@ module.exports = {
             'IO流'
           ]
         },
-
         {
           text: '网络编程',
           collapsible: true,
@@ -132,7 +131,6 @@ module.exports = {
             '网络编程'
           ]
         },
-
         {
           text: 'Java并发基础',
           collapsible: true,
@@ -147,7 +145,6 @@ module.exports = {
             '反射'
           ]
         },
-
         {
           text: 'JavaAPI',
           collapsible: true,
