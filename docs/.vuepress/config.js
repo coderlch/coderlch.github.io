@@ -111,10 +111,19 @@ module.exports = {
     sidebar: {
       '/java/javaSE/': [
         {
+          text: 'Java语言基础',
+          collapsible: true,
+          children: [
+            'Java语言基础'
+          ]
+        },
+        {
           text: '集合',
           collapsible: true,
           children: [
             'HashMap',
+            'ArrayList',
+            'LinkedList'
           ]
         },
         {
