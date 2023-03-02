@@ -158,7 +158,8 @@ module.exports = {
           text: 'JavaAPI',
           collapsible: true,
           children: [
-            '字符串'
+            '字符串',
+            'Arrays'
           ]
         }
       ],
