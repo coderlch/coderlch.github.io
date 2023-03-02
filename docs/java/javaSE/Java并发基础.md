@@ -63,107 +63,112 @@ description: Java并发基础
 
 ### 创建和运行线程
 
+###### 继承Thread类
 
+> - Thread类位于 `java.lang.Thread` 下。
+> - [Thread API](https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html)
 
+```java
+        /**
+         * 1. 自定义一个MyThread类并继承Thread类
+         * 2. 重写run方法
+         * 3. 创建MyThread类对象，调用start方法启动线程
+         */
+        MyThread myThread = new MyThread();
+        myThread.start();
 
 
-### 多线程同时运行
+public class MyThread extends Thread {
+    @Override
+    public void run() {
+        System.out.println(this.getName() + " 线程启动了。。。");
+    }
+}
 
 
+```
 
 
 
-### 查看进程线程的方法
+###### 实现Runnable接口
 
+> - Runnable接口位于 `java.lang.Runnable` 中
+> - [Runnable API](https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html)
 
+```java
+        /**
+         * 1. 自定义一个MyThread类并实现Runnable接口
+         * 2. 重写run方法
+         * 3. 创建MyThread类的对象
+         * 4. 创建Thread类的对象，并传入MyThread类的对象
+         * 5. 调用start方法启动线程
+         */
+        MyThread myThread = new MyThread();
+        Thread thread = new Thread(myThread);
+        thread.start();
 
 
+public class MyThread implements Runnable {
+    @Override
+    public void run() {
+        System.out.println(Thread.currentThread().getName() + " 线程启动了。。。");
+    }
+}
+```
 
-### 线程运行原理
 
 
+###### 实现Callable接口和Future接口
 
+> - Callable接口位于 `java.util.concurrent.Callable` 中
+> - Future接口位于 `java.util.concurrent.Future` 中，它的实现类位于 `java.util.concurrent.FutureTask` 中
+> - [Callable API](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Callable.html)
+> - [Future API](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Future.html)
+> - [FutureTask API](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/FutureTask.html)
 
+```java
+        /**
+         * 1. 自定义一个MyThread类并实现Callable接口
+         * 2. 重写call方法(有返回值，表示多线程运行的结果)
+         * 3. 创建MyThread的一个对象（表示多线程要执行的任务）
+         * 4. 创建FutureTask对象（用于管理多线程的运行结果）
+         * 5. 创建Thread对象并传入FutureTask对象，然后调用start方法启动线程
+         * 6. 获取多线程运行的结果
+         */
+        MyThread myThread = new MyThread();
+        FutureTask<Integer> task = new FutureTask<>(myThread);
+        Thread thread = new Thread(task);
+        thread.start();
 
-### 常见方法
+        System.out.println(task.get());  // 100
 
 
+public class MyThread implements Callable<Integer> {
+    @Override
+    public Integer call() throws Exception {
+        return 100;
+    }
+}
 
+```
 
 
 
+### Thread类常用方法
 
-### start与run方法
+| 包   | 方法                             | 说明                           |
+| ---- | -------------------------------- | ------------------------------ |
+|      | String getName()                 | 返回此线程的名称               |
+|      | void setName(String name)        | 设置线程的名字                 |
+|      | static Thread currentThread()    | 获取当前线程的对象             |
+|      | static void sleep(long time)     | 让线程休眠指定的时间，单位为ms |
+|      | setPriority(int newPriority)     | 设置线程的优先级               |
+|      | final int getPriority()          | 获取线程的优先级               |
+|      | final void setDaemon(boolean on) | 设置为守护线程                 |
+|      | public static void yield()       | 出让线程                       |
+|      | public static void join()        | 插入线程                       |
 
 
-
-
-
-### sleep与yield方法
-
-
-
-
-
-### join方法详解
-
-
-
-
-
-### interrupt方法详解
-
-
-
-
-
-### 主线程与守护线程
-
-
-
-
-
-### 线程状态
-
-
-
-
-
-
-
-
-
-
-
-## 管程
-
-
-
-
-
-## 内存
-
-
-
-
-
-## 无锁
-
-
-
-
-
-
-
-## 不可变
-
-
-
-
-
-
-
-## 工具
 
 
 
